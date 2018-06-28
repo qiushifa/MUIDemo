@@ -109,13 +109,13 @@
 	},
 	"plus": {
 		"statusbar": {
-			"immersed": true
+			"immersed": true		
 		},
 		
 		"launchwebview": {
 			"titleNView": {
 			    
-				"backgroundcolor": "#f7f7f7",
+				"backgroundcolor": "#32CD32",
 				"titletext": "首页",
 				"titlecolor": "#ff461f"
 			},
@@ -281,11 +281,11 @@
 				"password": "",/*iOS应用打包个人证书导入密码*/
 				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
 				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
-				"frameworks": [],
-				"UIReserveStatusbarOffset": true
+				"frameworks": []
+				
 			},
 			"google": {
-				"ImmersedStatusbar": true,
+				
 				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/

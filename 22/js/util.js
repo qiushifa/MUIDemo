@@ -1,4 +1,4 @@
-var util = {
+ var util = {
 	options: {
 		ACTIVE_COLOR: "#007aff",
 		NORMAL_COLOR: "#000",
@@ -49,14 +49,7 @@ var util = {
 		for(var i = 0, len = subpages.length; i < len; i++) {
 
 			if(!plus.webview.getWebviewById(subpages[i])) {
-// 				var subpage_style = {
-// 					top: 0,
-// 					bottom: 51,
-// // 					titleNView:{
-// // 						titleText: titleArr[i],
-// // 					}
-// 				};
-				
+			
 				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 				
 				//初始化隐藏
