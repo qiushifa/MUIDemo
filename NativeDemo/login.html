@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+
+		<br />
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id="account" type="text" class="mui-input-clear" placeholder="请输入账号名">
+				</div>
+			</form>
+
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id="password" type="password" class="mui-input-clear" placeholder="请输入密码">
+				</div>
+			</form>
+
+			<br />
+
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a id='reg'>快速注册</a>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+
+				plus.navigator.closeSplashscreen();
+				var aa = plus.webview.all();
+				for(var i = 0; i < aa.length; i++) {
+					if(aa[i].id === "guide") {　　　　　　　　　　　　　
+						aa[i].close('none');
+					}
+
+				};
+
+				var toMain = function() {
+					plus.webview.currentWebview().close();
+				};
+
+				var accountLabel = document.getElementById('account');
+				var passwdLabel = document.getElementById('password');
+				var loginBtn = document.getElementById('login');
+				var regBtn = document.getElementById('reg');
+
+				loginBtn.addEventListener("tap", function(event) {
+					toMain();
+
+					//					if (accountLabel.value == "") {
+					//						plus.nativeUI.toast("账号不能为空");
+					//						return;
+					//					}
+					//					
+					//					if (passwdLabel.value == "") {
+					//						plus.nativeUI.toast("密码不能为空");
+					//						return;
+					//						
+					//					}
+					//					
+					//					mui.get("http://192.168.1.8:8888/app/account/loginApp",
+					//					{
+					//						loginname: accountLabel.value,
+					//						password: passwdLabel.value
+					//						
+					//					},
+					//					function(data){
+					//						if (data.body.isExist == "1") {
+					//							var token = data.body.token;
+					//							var roleType = data.body.roletype;
+					//							var userId = data.body.userId;
+					//							
+					//							plus.storage.setItem("userToken",token);
+					//							// plus.io.setItem('userToken',token);
+					//							plus.storage.setItem("loginFlag","1");
+					//							plus.storage.setItem("userId",userId);
+					//
+					//							toMain();
+					//							
+					//						} else{
+					//							plus.storage.setItem('loginFlag',false);
+					//							plus.nativeUI.toast(data.body.messageBody);
+					//						}
+					//	
+					//						
+					//					},
+					//					'json'
+					//					
+					//					
+					//					)
+
+				});
+
+				regBtn.addEventListener('tap', function(event) {
+					mui.openWindow({
+						url: "reg.html",
+						id: "register"
+
+					})
+
+				}, false);
+
+			});
+		</script>
+
+	</body>
+
+</html>

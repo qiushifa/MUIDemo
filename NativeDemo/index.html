@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<script src="js/mui.min.js"></script>
+		<script src="js/phone.js" type="text/javascript" charset="utf-8"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				padding-bottom: 51px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<script src="js/util.js"></script>
+
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+
+			function preload() {
+				// 创建子webview窗口 并初始化
+				var aniShow = {};
+				util.initSubpage(aniShow);
+
+			};
+
+			mui.plusReady(function() {
+
+				plus.runtime.setBadgeNumber(0);
+
+				plus.push.clear();
+
+				//读取本地存储，检查是否为首次启动
+				var showGuide = plus.storage.getItem("lauchFlag");
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				showGuide = 0;
+				if(showGuide) {
+					//有值，说明已经显示过了，无需显示；
+					//关闭splash页面；
+					//					plus.navigator.closeSplashscreen();
+					//					plus.navigator.setFullscreen(false);
+
+					//显示广告页
+					mui.openWindow({
+						id: 'ad',
+						url: 'ad.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+
+				} else {
+					//显示启动导航
+					mui.openWindow({
+						id: 'guide',
+						url: 'guide.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					//延迟的原因：优先打开启动导航页面，避免资源争夺
+					setTimeout(function() {
+						//预加载
+						preload();
+					}, 200);
+
+				};
+
+				var self = plus.webview.currentWebview();
+				self.setStyle({
+					titleNView: {
+						titleText: "首页",
+						height: "34px",
+						buttons: [{
+							text: '自访',
+							float: 'left',
+							fontSize: "15px",
+							backgroundColor: '#000000',
+							//											onclick:clickButton
+						}]
+					}
+				})
+
+				var drawIcon = util.drawNative('icon', {
+					bottom: '35px',
+					left: '38%',
+					width: '20px',
+					height: '20px'
+
+				}, [
+					//					{
+					//						tag: 'rect',
+					//						id: 'bg',
+					//						rectStyles: {
+					//							radius: '50%',
+					//							color: '#DC143C'
+					//						}
+					//
+					//					},
+					{
+						tag: 'font',
+						id: 'jiao',
+						text: '2',
+						textStyles: {
+							align: 'center',
+							color: '#DC143C',
+							size: '15px'
+						}
+
+					},
+
+				]);
+				self.append(drawIcon);
+
+				var nview = plus.nativeObj.View.getViewById('tabBar');
+				var bottomHeight = iphoneX ? 34 : 0;
+				nview.setStyle({
+					bottom: bottomHeight + 'px',
+				})
+
+				// 创建子webview窗口 并初始化
+				var aniShow = {};
+				//				util.initSubpage(aniShow);
+
+				//初始化相关参数
+				var activePage = plus.webview.currentWebview(),
+					// 使默认的页面是自己建立的页面，不是index.html
+					targetPage = util.options.subpages[0],
+					subpages = util.options.subpages,
+					pageW = window.innerWidth,
+					currIndex = 0;
+				// 切换第一个页面
+				util.changeSubpage(targetPage, activePage, aniShow);
+
+				/**
+				 * 根据判断view控件点击位置判断切换的tab
+				 */
+				nview.addEventListener('click', function(e) {
+					var clientX = e.clientX;
+
+					if(clientX >= 0 && clientX <= parseInt(pageW * 0.25)) {
+						currIndex = 0;
+						console.log('进入首页');
+						self.setStyle({
+							titleNView: {
+								titleText: "首页",
+								//								height: "34px",
+								buttons: [{
+									text: '自访',
+									float: 'left',
+									fontSize: "15px"
+
+									//											onclick:clickButton
+								}]
+							}
+						})
+
+						//
+
+					} else if(clientX > parseInt(pageW * 0.25) && clientX <= parseInt(pageW * 0.5)) {
+						currIndex = 1;
+
+						//						drawIcon.drawRect({
+						//							radius: '50%'
+						//						}, {
+						//							height: '0px'
+						//						}, 'bg');
+
+						drawIcon.drawText('3', {
+							height: '0px'
+
+						}, {
+							size: '0px'
+						}, 'jiao');
+
+						//							self.getTitleNView().hide();
+						self.setStyle({
+							titleNView: {
+								titleText: "日程",
+								//								height: "34px",
+								buttons: [{}]
+							}
+						})
+
+					} else if(clientX > parseInt(pageW * 0.5) && clientX <= parseInt(pageW * 0.75)) {
+						currIndex = 2;
+						self.setStyle({
+							titleNView: {
+								titleText: "订货",
+								//								height: "34px",
+								buttons: [{
+									text: '测试',
+									fontSize: "15px",
+									float: 'right'
+
+									//											onclick:clickButton
+								}]
+							}
+
+						})
+
+					} else {
+						currIndex = 3;
+						self.setStyle({
+							titleNView: {
+								titleText: "我的",
+								//								height: "34px",
+								buttons: [{}]
+							}
+
+						})
+
+					}
+					// 匹配对应tab窗口	
+					if(plus.webview.getWebviewById(subpages[currIndex].id) == plus.webview.currentWebview()) {
+						return;
+					} else {
+						targetPage = plus.webview.getWebviewById(subpages[currIndex].id);
+					}
+
+					//底部选项卡切换
+					util.toggleNview(currIndex);
+					// 子页面切换
+					util.changeSubpage(targetPage, activePage, aniShow);
+					//更新当前活跃的页面
+					activePage = targetPage;
+
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		</script>
+
+		<style type="text/css">
+			body {
+				background-color: black;
+			}
+			
+			.guide_pic {
+				position: relative;
+			}
+			
+			.guide-img {
+				height: 100%;
+				width: 100%;
+			}
+			
+			#start {
+				position: absolute;
+				bottom: 40px;
+				width: 60%;
+				left: 20%;
+			}
+			
+			.animate {
+				position: absolute;
+				left: 0;
+				bottom: 15%;
+				width: 100%;
+				color: #fff;
+				display: -moz-box;
+			}
+			.animate h2 {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			
+			.animated {
+				-webkit-animation-duration: 1s;
+				-webkit-animation-play-state: paused;
+				-webkit-animation-fill-mode: both;
+			}
+			.guide-show .bounceInDown {
+				-webkit-animation-name: bounceInDown;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 1s;
+				display: block;
+			}
+			
+			@-webkit-keyframes bounceInDown {
+				0%,
+				60%,
+				75%,
+				90%,
+				100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(0, -3000px, 0);
+					transform: translate3d(0, -3000px, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(0, 25px, 0);
+					transform: translate3d(0, 25px, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(0, -5px, 0);
+					transform: translate3d(0, -5px, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(0, 3px, 0);
+					transform: translate3d(0, 3px, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="mui-slider mui-fullscreen">
+				<div class="mui-slider-group">
+					<!--<div class="mui-slider-item">
+
+						<img class="guide-img" src="image/00.png">
+
+					</div>
+					<div class="mui-slider-item">
+
+						<img class="guide-img" src="image/11.png">
+
+					</div>
+					<div class="mui-slider-item">
+
+						<img class="guide-img" src="image/22.png">
+
+					</div>-->
+					<div class="mui-slider-item">
+						<div class="guide_pic">
+							<img class="guide-img" src="image/loading.png">
+						</div>
+						<div id="tips-2" align="center" class="animate guide-show">
+							<a class=" animated bounceInDown">这是最后一页</a>
+						</div>
+						<button class="mui-btn mui-btn-blue mui-btn-outlined" type="button" id="start">开始体验</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			mui.plusReady(function() {
+
+				var item = document.getElementById("tips-2");
+				item.classList.add("guide-show");
+				
+
+				var self = plus.webview.currentWebview();
+
+				if(mui.os.ios) {
+					plus.navigator.setFullscreen(true);
+				}
+				plus.navigator.closeSplashscreen();
+
+				var sh = plus.navigator.getStatusbarHeight();
+
+				// 获取设备屏幕高度分辨率以及宽度分辨率
+				var h = plus.screen.resolutionHeight;
+				var w = plus.screen.resolutionWidth;
+
+				// 设置图片高度，这里图片并不规范；实际开发中，建议大家制作iphone6plus规格的图片；
+				var imgs = document.querySelectorAll(".guide-img");
+				for(var i = 0, len = imgs.length; i < len; i++) {
+					imgs[i].style.height = (h - sh) + "px";
+					imgs[i].style.width = w + "px";
+				}
+
+			});
+
+			//立即体验按钮点击事件
+			document.getElementById("start").addEventListener('tap', function(event) {
+				plus.storage.setItem("lauchFlag", "true");
+				plus.navigator.setFullscreen(false);
+				//				plus.webview.currentWebview().close();
+
+				mui.openWindow({
+					url: 'login.html',
+					id: 'login',
+					styles: {
+						titleNView: {
+							titleText: "登录"
+						},
+						popGesture: "none"
+					},
+					show: {
+						aniShow: 'none'
+					},
+					waiting: {
+						autoShow: false
+					}
+
+				})
+
+			});
+		</script>
+	</body>
+
+</html>
